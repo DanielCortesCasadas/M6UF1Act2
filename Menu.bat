@@ -6,8 +6,8 @@ echo ============================================
 echo               Menu Principal
 echo ============================================
 echo 1. Crear una carpeta en Documentos
-echo 2. Mostrar fecha y hora del sistema
-echo 3. Mostrar especificaciones del PC
+echo 2. Mostrar fecha y hora del sistema                             # El menu principal l'hem fet tots junts
+echo 3. Mostrar especificaciones del PC                           
 echo 4. Apagar el PC
 echo 5. Salir
 echo ============================================
@@ -22,14 +22,14 @@ goto menu
 
 :crear_carpeta
 set /p nombre=Introduce el nombre de la carpeta: 
-mkdir "%userprofile%\Documents\%nombre%"
+mkdir "%userprofile%\Documents\%nombre%"                       # Aquest apartat l'ha fet Dereck de la Morena
 echo Carpeta creada en Documentos.
 pause
 goto menu
 
 :fecha_hora
 echo La fecha y hora actual es:
-date /t
+date /t                                                        # Aquest apartat l'ha fet Adrià Siscart
 time /t
 pause
 goto menu
@@ -38,7 +38,7 @@ goto menu
 echo Especificaciones del PC:
 echo GPU:
 wmic path win32_videocontroller get name
-echo CPU:
+echo CPU:                                                      # Aquest apartat l'ha fet Izan Fabregat
 wmic cpu get name
 echo RAM:
 wmic memorychip get capacity
@@ -46,9 +46,9 @@ pause
 goto menu
 
 :apagar
-echo Apagando el PC...
+echo Apagando el PC...                                          # Aquest apartat + la sortida del programa l'ha fet Daniel Cortes
 shutdown /s /f /t 0
-goto menu
+goto menu                                                    
 
 :salir
 exit
