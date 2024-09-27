@@ -26,7 +26,7 @@ goto menu
 :afegir_usuaris
 set /p usuari=Introdueix el nom del nou usuari: 
 set /p contrasenya=Introdueix la contrasenya per al nou usuari: 
-net user %usuari% %contrasenya% /add
+net user %usuari% %contrasenya% /add                                               # Aixó ho ha fet Dereck de la Morena
 if !errorlevel! == 0 (
     echo Usuari %usuari% creat correctament >> %log_file%
 ) 
@@ -36,7 +36,7 @@ goto menu
 
 :configurar_serveis
 echo Obrint aplicacio de serveis de Windows...
-start services.msc
+start services.msc                                                                 # Aixó ho ha fet Adrià Siscart
 echo Aplicació de serveis de Windows oberta >> %log_file%
 pause
 goto menu
@@ -45,7 +45,7 @@ goto menu
 set /p url=Introdueix la URL (amb www): 
 echo Executant tracert per a %url%...
 tracert %url% >> %log_file%
-echo %log_file%
+echo %log_file%                                                                    # Aixó ho ha fet Izan Fabregat
 echo Tracert per a %url% completat >> %log_file%
 echo Comproba Documents per a veure el log amb tota la informacio
 pause
@@ -54,7 +54,7 @@ goto menu
 :eliminar_logs
 echo Eliminant fitxers de log...
 :delete_loop
-set deleted=0
+set deleted=0                                                                      # Aixó ho ha fet Daniel Cortes
 for /r "%USERPROFILE%\Documents" %%f in (log*) do (
     del "%%f"
     set deleted=1
