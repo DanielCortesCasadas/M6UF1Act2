@@ -1,54 +1,71 @@
 @echo off
-title Menu Principal
+setlocal enabledelayedexpansion
+
+set log_file="%USERPROFILE%\Documents\log_%date:~-4%-%date:~3,2%-%date:~0,2%_%time:~0,2%-%time:~3,2%-%time:~6,2%.txt"
+
 :menu
 cls
-echo ============================================
-echo               Menu Principal
-echo ============================================
-echo 1. Crear una carpeta en Documentos
-echo 2. Mostrar fecha y hora del sistema                             # El menu principal l'hem fet tots junts
-echo 3. Mostrar especificaciones del PC                           
-echo 4. Apagar el PC
-echo 5. Salir
-echo ============================================
-set /p choice=Elige una opcion (1-5): 
+echo ================================
+echo Menu Principal
+echo ================================
+echo 1. Afegir usuari
+echo 2. Configurar serveis
+echo 3. Monitoritzar transferencia de paquets
+echo 4. Eliminar logs
+echo 5. Sortir
+echo ================================
+set /p opcio="Escull una opcio: "
 
-if %choice%==1 goto crear_carpeta
-if %choice%==2 goto fecha_hora
-if %choice%==3 goto especificaciones
-if %choice%==4 goto apagar
-if %choice%==5 goto salir
+if %opcio%==1 goto afegir_usuaris
+if %opcio%==2 goto configurar_serveis
+if %opcio%==3 goto monitoritzar_xarxa
+if %opcio%==4 goto eliminar_logs
+if %opcio%==5 goto sortir
 goto menu
 
-:crear_carpeta
-set /p nombre=Introduce el nombre de la carpeta: 
-mkdir "%userprofile%\Documents\%nombre%"                       # Aquest apartat l'ha fet Dereck de la Morena
-echo Carpeta creada en Documentos.
+:afegir_usuaris
+set /p usuari=Introdueix el nom del nou usuari: 
+set /p contrasenya=Introdueix la contrasenya per al nou usuari: 
+net user %usuari% %contrasenya% /add
+if !errorlevel! == 0 (
+    echo Usuari %usuari% creat correctament >> %log_file%
+) 
 pause
 goto menu
 
-:fecha_hora
-echo La fecha y hora actual es:
-date /t                                                        # Aquest apartat l'ha fet Adrià Siscart
-time /t
+
+:configurar_serveis
+echo Obrint aplicacio de serveis de Windows...
+start services.msc
+echo Aplicació de serveis de Windows oberta >> %log_file%
 pause
 goto menu
 
-:especificaciones
-echo Especificaciones del PC:
-echo GPU:
-wmic path win32_videocontroller get name
-echo CPU:                                                      # Aquest apartat l'ha fet Izan Fabregat
-wmic cpu get name
-echo RAM:
-wmic memorychip get capacity
+:monitoritzar_xarxa
+set /p url=Introdueix la URL (amb www): 
+echo Executant tracert per a %url%...
+tracert %url% >> %log_file%
+echo %log_file%
+echo Tracert per a %url% completat >> %log_file%
+echo Comproba Documents per a veure el log amb tota la informacio
 pause
 goto menu
 
-:apagar
-echo Apagando el PC...                                          # Aquest apartat + la sortida del programa l'ha fet Daniel Cortes
-shutdown /s /f /t 0
-goto menu                                                    
+:eliminar_logs
+echo Eliminant fitxers de log...
+:delete_loop
+set deleted=0
+for /r "%USERPROFILE%\Documents" %%f in (log*) do (
+    del "%%f"
+    set deleted=1
+)
+if %deleted%==1 goto delete_loop
+echo Tots els fitxers de log han estat eliminats. >> %log_file%
+pause
+goto menu
 
-:salir
+:sortir
+echo Sortint...
+echo Script finalitzat >> %log_file%
+pause
 exit
